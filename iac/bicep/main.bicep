@@ -8,14 +8,14 @@ targetScope = 'subscription'
 // @description('Microsoft Fabric Resource group location')
 // param rglocation string = 'australiaeast'
 
-@description('Cost Centre tag that will be applied to all resources in this deployment')
-param cost_centre_tag string = 'MCAPS'
+// @description('Cost Centre tag that will be applied to all resources in this deployment')
+// param cost_centre_tag string = 'MCAPS'
 
-@description('System Owner tag that will be applied to all resources in this deployment')
-param owner_tag string = 'claydson@gmail.com'
+// @description('System Owner tag that will be applied to all resources in this deployment')
+// param owner_tag string = 'claydson@gmail.com'
 
-@description('Subject Matter EXpert (SME) tag that will be applied to all resources in this deployment')
-param sme_tag string ='claydson@gmail.com'
+// @description('Subject Matter EXpert (SME) tag that will be applied to all resources in this deployment')
+// param sme_tag string ='claydson@gmail.com'
 
 @description('Timestamp that will be appendedto the deployment name')
 param deployment_suffix string = utcNow()
@@ -164,9 +164,9 @@ module controldb './modules/sqldb.bicep' = {
      sqlserver_name: 'sql-server-db-fabric-accelerator'
      database_name: 'controlDB_1' 
      location: fabric_rg.location
-     cost_centre_tag: cost_centre_tag
-     owner_tag: owner_tag
-     sme_tag: sme_tag
+    //  cost_centre_tag: cost_centre_tag
+    //  owner_tag: owner_tag
+    //  sme_tag: sme_tag
      //ad_admin_username:  kv_ref.getSecret('sqlserver-ad-admin-username')
      ad_admin_username:  'clay@ezdata.co.nz'
      ad_admin_sid:  'aebc135d-a0b7-4be4-9051-01b0ef24e4d0'  

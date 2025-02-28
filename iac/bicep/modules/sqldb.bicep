@@ -7,14 +7,14 @@ param database_name string
 @description('Azure Location SQL Server')
 param location string = resourceGroup().location
 
-@description('Cost Centre tag that will be applied to all resources in this deployment')
-param cost_centre_tag string
+// @description('Cost Centre tag that will be applied to all resources in this deployment')
+// param cost_centre_tag string
 
-@description('System Owner tag that will be applied to all resources in this deployment')
-param owner_tag string
+// @description('System Owner tag that will be applied to all resources in this deployment')
+// param owner_tag string
 
-@description('Subject Matter Expert (SME) tag that will be applied to all resources in this deployment')
-param sme_tag string
+// @description('Subject Matter Expert (SME) tag that will be applied to all resources in this deployment')
+// param sme_tag string
 
 @description('AD server admin user name')
 @secure()
@@ -53,11 +53,11 @@ var sqlserver_unique_name = '${sqlserver_name}-${suffix}'
 resource sqlserver 'Microsoft.Sql/servers@2023-08-01-preview' ={
   name: sqlserver_unique_name
   location: location
-  tags: {
-    CostCentre: cost_centre_tag
-    Owner: owner_tag
-    SME: sme_tag
-    }
+  // tags: {
+  //   CostCentre: cost_centre_tag
+  //   Owner: owner_tag
+  //   SME: sme_tag
+  //   }
   identity:{ type: 'SystemAssigned'}
   properties: {
     administrators:{
@@ -82,15 +82,16 @@ resource allowAzure_Firewall 'Microsoft.Sql/servers/firewallRules@2021-11-01' ={
     endIpAddress: '0.0.0.0'
   }
 }
+
 // Deploy database
 resource database 'Microsoft.Sql/servers/databases@2021-11-01' ={
   name: database_name
   location: location
-  tags: {
-    CostCentre: cost_centre_tag
-    Owner: owner_tag
-    SME: sme_tag
-    }
+  // tags: {
+  //   CostCentre: cost_centre_tag
+  //   Owner: owner_tag
+  //   SME: sme_tag
+  //   }
   sku:{name: database_sku_name}
   parent: sqlserver
   properties: {
