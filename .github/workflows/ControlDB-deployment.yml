@@ -12,11 +12,11 @@ jobs:
           uses: Azure/login@v1
           with:
            creds: '{"clientId":"${{ secrets.SERVICE_PRINCIPAL_CLIENT_ID }}","clientSecret":"${{ secrets.SERVICE_PRINCIPAL_CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
-        - name: Install Azure CLI
-          uses: azure/cli@v1
-          with:
-            inlineScript: |
-              az --version
+        - name: Install Azure CLI (Windows)
+          run: |
+            Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile AzureCLI.msi
+            Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'
+            az --version
         - name: Build and Deploy SQL Database
           uses: Azure/sql-action@v2
           with:
