@@ -167,7 +167,7 @@ module controldb './modules/sqldb.bicep' = {
      cost_centre_tag: cost_centre_tag
      owner_tag: owner_tag
      sme_tag: sme_tag
-     ad_admin_username:  kv_ref.getSecret('sqlserver-ad-admin-username')
+     ad_admin_username:  kv_ref.getSecret('sqlserver-ad-admin-username111')
      ad_admin_sid:  kv_ref.getSecret('sqlserver-ad-admin-sid')  
      auto_pause_duration: 60
      database_sku_name: 'GP_S_Gen5_1' 
