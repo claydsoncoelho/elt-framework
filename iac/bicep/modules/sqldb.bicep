@@ -30,20 +30,20 @@ param database_sku_name string ='GP_S_Gen5_1'
 @description('Time in minutes after which database is automatically paused')
 param auto_pause_duration int =60
 
-@description('Flag to indicate whether to enable integration of data platform resources with either an existing or new Purview resource')
-param enable_purview bool
+// @description('Flag to indicate whether to enable integration of data platform resources with either an existing or new Purview resource')
+// param enable_purview bool
 
-@description('Flag to indicate whether to enable audit logging of SQL Server')
-param enable_audit bool = false
+// @description('Flag to indicate whether to enable audit logging of SQL Server')
+// param enable_audit bool = false
 
-@description('Resource Name of new or existing Purview Account. Specify a resource name if create_purview=true or enable_purview=true')
-param purview_resource object
+// @description('Resource Name of new or existing Purview Account. Specify a resource name if create_purview=true or enable_purview=true')
+// param purview_resource object
 
-@description('Resource name of audit storage account.')
-param audit_storage_name string
+// @description('Resource name of audit storage account.')
+// param audit_storage_name string
 
-@description('Resource group of audit storage account is deployed')
-param auditrg string
+// @description('Resource group of audit storage account is deployed')
+// param auditrg string
 
 // Variables
 var suffix = uniqueString(resourceGroup().id)
@@ -99,55 +99,56 @@ resource database 'Microsoft.Sql/servers/databases@2021-11-01' ={
 }
 
 //Get Reference to audit storage account
-resource audit_storage_account 'Microsoft.Storage/storageAccounts@2023-01-01' existing = if(enable_audit) {
-  name: audit_storage_name
-  scope: resourceGroup(auditrg)
-}
+// resource audit_storage_account 'Microsoft.Storage/storageAccounts@2023-01-01' existing = if(enable_audit) {
+//   name: audit_storage_name
+//   scope: resourceGroup(auditrg)
+// }
 
-module storage_permissions 'storage-permissions.bicep' = if(enable_audit)  {
-  name: 'storage_permissions'
-  scope: resourceGroup(auditrg)
-  params:{
-    storage_name: audit_storage_name
-    storage_rg: auditrg
-    principalId: sqlserver.identity.principalId
-    grant_reader: false
-    grant_contributor: true
-  }
-}
+// module storage_permissions 'storage-permissions.bicep' = if(enable_audit)  {
+//   name: 'storage_permissions'
+//   scope: resourceGroup(auditrg)
+//   params:{
+//     storage_name: audit_storage_name
+//     storage_rg: auditrg
+//     principalId: sqlserver.identity.principalId
+//     grant_reader: false
+//     grant_contributor: true
+//   }
+// }
 
 // Deploy audit diagnostics Azure SQL Server to storage account
-resource sqlserver_audit 'Microsoft.Sql/servers/auditingSettings@2023-08-01-preview' = if(enable_audit)  {
-  name: 'default'
-  parent: sqlserver
-  properties: {
-    auditActionsAndGroups: ['BATCH_COMPLETED_GROUP','SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP','FAILED_DATABASE_AUTHENTICATION_GROUP']
-    isAzureMonitorTargetEnabled: true
-    isDevopsAuditEnabled: true
-    isManagedIdentityInUse: true
-    isStorageSecondaryKeyInUse: false
-    retentionDays: 90
-    state: 'Enabled'
-    storageAccountSubscriptionId: subscription().subscriptionId
-    storageEndpoint: audit_storage_account.properties.primaryEndpoints.blob
- }
-}
-//Role Assignment
-@description('This is the built-in Storage Blob Reader role. See https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#contributor')
-resource readerRoleDefinition 'Microsoft.Authorization/roleDefinitions@2018-01-01-preview' existing = {
-  scope: subscription()
-  name: 'acdd72a7-3385-48ef-bd42-f606fba81ae7'
-}
+// resource sqlserver_audit 'Microsoft.Sql/servers/auditingSettings@2023-08-01-preview' = if(enable_audit)  {
+//   name: 'default'
+//   parent: sqlserver
+//   properties: {
+//     auditActionsAndGroups: ['BATCH_COMPLETED_GROUP','SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP','FAILED_DATABASE_AUTHENTICATION_GROUP']
+//     isAzureMonitorTargetEnabled: true
+//     isDevopsAuditEnabled: true
+//     isManagedIdentityInUse: true
+//     isStorageSecondaryKeyInUse: false
+//     retentionDays: 90
+//     state: 'Enabled'
+//     storageAccountSubscriptionId: subscription().subscriptionId
+//     storageEndpoint: audit_storage_account.properties.primaryEndpoints.blob
+//  }
+// }
 
-resource grant_purview_reader_role 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = if (enable_purview){
-  name: guid(subscription().subscriptionId, sqlserver.name, readerRoleDefinition.id)
-  scope: sqlserver
-  properties: {
-    principalType: 'ServicePrincipal'
-    principalId: purview_resource.identity.principalId
-    roleDefinitionId: readerRoleDefinition.id
-  }
-}
+// //Role Assignment
+// @description('This is the built-in Storage Blob Reader role. See https://docs.microsoft.com/azure/role-based-access-control/built-in-roles#contributor')
+// resource readerRoleDefinition 'Microsoft.Authorization/roleDefinitions@2018-01-01-preview' existing = {
+//   scope: subscription()
+//   name: 'acdd72a7-3385-48ef-bd42-f606fba81ae7'
+// }
+
+// resource grant_purview_reader_role 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = if (enable_purview){
+//   name: guid(subscription().subscriptionId, sqlserver.name, readerRoleDefinition.id)
+//   scope: sqlserver
+//   properties: {
+//     principalType: 'ServicePrincipal'
+//     principalId: purview_resource.identity.principalId
+//     roleDefinitionId: readerRoleDefinition.id
+//   }
+// }
 output sqlserver_uniquename string = sqlserver.name
 output database_name string = database.name
 output sqlserver_resource object = sqlserver
