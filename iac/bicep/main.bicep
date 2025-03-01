@@ -15,7 +15,7 @@ param rglocation string = 'australiaeast'
 param deployment_suffix string = utcNow()
 
 @description('Azure SQL Server name. This name must be unique in Azure, therefore, this name will be concateneted with random sufix on var section of resource group.')
-param sqlserver_name string = 'ASQL-Server'
+param sqlserver_name string = 'asql-server'
 
 @description('Azure SQL Database name (usually controlDB).')
 param database_name string = 'controlDB'
