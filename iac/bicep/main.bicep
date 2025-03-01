@@ -18,7 +18,7 @@ param deployment_suffix string = utcNow()
 param sqlserver_name string = 'sql-server-elt'
 
 @description('Azure SQL Database name (usually controlDB).')
-param database_name string = 'controlDB'
+param database_name string = 'ControlDB'
 
 @description('Microsoft Entra username to be the SQL Server admin.')
 param entra_admin_username string = 'clay@ezdata.co.nz'

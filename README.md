@@ -40,7 +40,7 @@ az role assignment create --assignee <YOUR SERVICE PRINCIPAL CLIENT ID> --role C
 
 3. Review the parameters in the **/github/workflows/main.bicep** file. Update and override the default param values as need. The parameter @description tells you what those parameters represent.
 
-4. Go to GitHub Actions and execute the **Provision Azure SQL Server and Database** workflow. [Wiki](https://github.com/claydsoncoelho/elt-framework/wiki)
+4. Go to GitHub Actions and execute the **Azure SQL Server and Database Provisioning** workflow. [Wiki](https://github.com/claydsoncoelho/elt-framework/wiki)
 
 
 ## ControlDB Database Objects Provisioning Setup
@@ -64,4 +64,4 @@ EXEC sp_addrolemember 'db_owner', [<YOUR SERVICE PRINCIPAL NAME, NOT THE CLIENT 
 GO
 ```
 
-3. Go to GitHub Actions and execute the **Provision ControlDB database objects** workflow. [Wiki](https://github.com/claydsoncoelho/elt-framework/wiki)
+3. Go to GitHub Actions and execute the **ControlDB Database Objects Provisioning** workflow. [Wiki](https://github.com/claydsoncoelho/elt-framework/wiki)
