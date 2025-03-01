@@ -5,13 +5,13 @@ This framework was based on **[Fabric Accelerator](https://bennyaustin.com/2024/
 
 ## Content
 
-# ### iac-ASQL-Server-Database.yml
+- ### iac-ASQL-Server-Database.yml
 GitHub Action to deploy Azure SQL Server and Azure SQL Server database (controlDB).
 The controlDB database is used to control ELT framework for metadata-driven orchestration.
 
-# ### iac-controlDB.yml
+- ### iac-controlDB.yml
 GitHub Action to deploy controlDB database objects (tables and Stored Procedures).
-The controlDB database is used to control ELT framework for metadata-driven orchestration.
+The controlDB database is used to control ELT metadata-driven orchestration.
 
 ## Setup
 
