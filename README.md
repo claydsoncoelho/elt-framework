@@ -13,11 +13,10 @@ The controlDB database is used to control ELT framework for metadata-driven orch
 GitHub Action to deploy **controlDB database objects** (tables and Stored Procedures).
 The controlDB database is used to control ELT metadata-driven orchestration.
 
-## Setup
 
-### iac-Azure-SQL-Server-Database Setup
+## iac-Azure-SQL-Server-Database Setup
 
-#### Pre-Requisites
+### Pre-Requisites
 
 - Create a Service Principal (Single tenant is enogh).
 
@@ -28,7 +27,7 @@ Azure Cloud Shell
 az role assignment create --assignee <YOUR SERVICE PRINCIPAL CLIENT ID> --role Contributor --scope /subscriptions/<YOUR SUBSCRIPTION ID>
 ```
 
-#### Steps
+### Steps
 
 1. Clone or Fork this Repository.
 
@@ -44,9 +43,9 @@ az role assignment create --assignee <YOUR SERVICE PRINCIPAL CLIENT ID> --role C
 4. Go to GitHub Actions and execute the **Provision Azure SQL Server and Database** workflow. [Wiki](https://github.com/claydsoncoelho/elt-framework/wiki)
 
 
-### iac-controlDB Setup
+## iac-controlDB Setup
 
-#### Steps
+### Steps
 
 1. On GitHub -> Settings -> Secrets and variables, set the **CONTROLDB_CONNECTIONSTRING** secret with the following connection string:
 
@@ -54,7 +53,9 @@ az role assignment create --assignee <YOUR SERVICE PRINCIPAL CLIENT ID> --role C
 Server=<YOUR SQL SERVER NAME>;Authentication=Active Directory Service Principal; Encrypt=True;Database=<YOUR "controlDB" DATABASE NAME>;User Id=<SERVICE_PRINCIPAL_CLIENT_ID>;Password=<SERVICE_PRINCIPAL_CLIENT_SECRET>
 ```
 
-2. Connect to controlDB using any SQL tool, Azure Query editor for example, and execute the following command to grant db_owner role to your Service Principal:
+2. Connect to controlDB using any SQL tool and execute the following command to grant db_owner role to your Service Principal:
+
+**Important!** If you are having problems to connect to controlDB, maybe you need to add your IP range to the Firewall in the Networking config of the Azure SQL Server.
 
 ```sql
 CREATE USER [<YOUR SERVICE PRINCIPAL NAME, NOT THE CLIENT ID>] FROM EXTERNAL PROVIDER
