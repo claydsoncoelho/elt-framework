@@ -48,14 +48,13 @@ az role assignment create --assignee <YOUR SERVICE PRINCIPAL CLIENT ID> --role C
 
 #### Steps
 
-1. On GitHub/Settings/Secrets and variables, set the **CONTROLDB_CONNECTIONSTRING** secret with the following connection string:
+1. On GitHub -> Settings -> Secrets and variables, set the **CONTROLDB_CONNECTIONSTRING** secret with the following connection string:
 
 ```
-Server=**<YOUR SQL SERVER>**;Authentication=Active Directory Service Principal; Encrypt=True;Database=**<YOUR "controlDB" NAME>**;User Id=**<SERVICE_PRINCIPAL_CLIENT_ID>**
-;Password=**<SERVICE_PRINCIPAL_CLIENT_SECRET>**
+Server=<YOUR SQL SERVER NAME>;Authentication=Active Directory Service Principal; Encrypt=True;Database=<YOUR "controlDB" DATABASE NAME>;User Id=<SERVICE_PRINCIPAL_CLIENT_ID>;Password=<SERVICE_PRINCIPAL_CLIENT_SECRET>
 ```
 
-2. Connect to controlDB using any SQL tool, Azure Query editor for example, and execute the following command. This will grant db_owner role to the Service Principal:
+2. Connect to controlDB using any SQL tool, Azure Query editor for example, and execute the following command to grant db_owner role to your Service Principal:
 
 ```sql
 CREATE USER [<YOUR SERVICE PRINCIPAL NAME, NOT THE CLIENT ID>] FROM EXTERNAL PROVIDER
