@@ -1,6 +1,6 @@
 # Pre-Requisites
 
-# 1. On GitHub/Settings/Secrets and variables, set the following secrets:
+## 1. On GitHub/Settings/Secrets and variables, set the following secrets:
 
 * **TENANT_ID:** 
 * **SUBSCRIPTION_ID:** 
@@ -9,7 +9,7 @@
 * **CONTROLDB_CONNECTIONSTRING:** Server=**<YOUR SQL SERVER>**;Authentication=Active Directory Service Principal; Encrypt=True;Database=**<YOUR "controlDB" NAME>**;User Id=**<SERVICE_PRINCIPAL_CLIENT_ID>**
 ;Password=**<SERVICE_PRINCIPAL_CLIENT_SECRET>**
 
-# 2. Connect to controlDB using any SQL tool and execute the following command. This will grant db_owner role to the Service Principal:
+## 2. Connect to controlDB using any SQL tool and execute the following command. This will grant db_owner role to the Service Principal:
 
 ```
 CREATE USER [<YOUR SERVICE PRINCIPAL NAME, NOT THE CLIENT ID>] FROM EXTERNAL PROVIDER
