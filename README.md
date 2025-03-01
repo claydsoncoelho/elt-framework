@@ -1,7 +1,7 @@
 # Microsoft Fabric Accelerator
 
 ## Disclamer
-This framework was based on **[Fabric Accelerator](https://bennyaustin.com/2024/11/17/fabric-accelerator/)** 
+This framework is based on **[Fabric Accelerator](https://bennyaustin.com/2024/11/17/fabric-accelerator/)** 
 
 ## Content
 
@@ -36,10 +36,10 @@ az role assignment create --assignee <YOUR SERVICE PRINCIPAL CLIENT ID> --role "
 
 2. On GitHub -> Settings -> Secrets and variables, create the following **secrets** with their respective values:
 
-- TENANT_ID
-- SUBSCRIPTION_ID
-- SERVICE_PRINCIPAL_CLIENT_ID
-- SERVICE_PRINCIPAL_CLIENT_SECRET
+    - TENANT_ID
+    - SUBSCRIPTION_ID
+    - SERVICE_PRINCIPAL_CLIENT_ID
+    - SERVICE_PRINCIPAL_CLIENT_SECRET
 
 3. Review the parameters in the /github/workflows/main.bicep file. Update and override the default param values as need. The parameter @description tells you what those parameters represent.
 
