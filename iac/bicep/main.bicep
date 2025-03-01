@@ -1,181 +1,71 @@
+// ######################### CHANGE YOUR PARAMETERS AND VARIABLES BELOW #################################
+
 // Scope
 targetScope = 'subscription'
 
-// // Parameters
-// @description('Resource group where Microsoft Fabric capacity will be deployed. Resource group will be created if it doesnt exist')
-// param dprg string= 'rg-fabric'
 
-// @description('Microsoft Fabric Resource group location')
-// param rglocation string = 'australiaeast'
+// Parameters
+@description('Resource group where Azure SQL Server and Azure SQL Database will be deployed. Resource group will be created if it doesnt exist')
+param rg_name string= 'Fabric-Accelerator-Resource-Group'
 
-// @description('Cost Centre tag that will be applied to all resources in this deployment')
-// param cost_centre_tag string = 'MCAPS'
+@description('Microsoft Fabric Resource group location')
+param rglocation string = 'australiaeast'
 
-// @description('System Owner tag that will be applied to all resources in this deployment')
-// param owner_tag string = 'claydson@gmail.com'
-
-// @description('Subject Matter EXpert (SME) tag that will be applied to all resources in this deployment')
-// param sme_tag string ='claydson@gmail.com'
-
-@description('Timestamp that will be appendedto the deployment name')
+@description('Timestamp that will be appended to the deployment name')
 param deployment_suffix string = utcNow()
 
-// @description('Flag to indicate whether to create a new Purview resource with this data platform deployment')
-// param create_purview bool = false
+@description('Azure SQL Server name. This name must be unique in Azure, therefore, this name will be concateneted with random sufix on var section of resource group.')
+param sqlserver_name string = 'ASQL-Server'
 
-// @description('Flag to indicate whether to enable integration of data platform resources with either an existing or new Purview resource')
-// param enable_purview bool = false
+@description('Azure SQL Database name (usually controlDB).')
+param database_name string = 'controlDB'
 
-// @description('Resource group where Purview will be deployed. Resource group will be created if it doesnt exist')
-// param purviewrg string= 'rg-datagovernance'
+@description('Microsoft Entra username to be the SQL Server admin.')
+param entra_admin_username string = 'clay@ezdata.co.nz'
 
-// @description('Location of Purview resource. This may not be same as the Fabric resource group location')
-// param purview_location string= 'westus2'
+@description('Microsoft Entra Object ID of the user above.')
+param entra_admin_object_id string = 'aebc135d-a0b7-4be4-9051-01b0ef24e4d0'
 
-// @description('Resource Name of new or existing Purview Account. Must be globally unique. Specify a resource name if either create_purview=true or enable_purview=true')
-// param purview_name string = 'ContosoDG' // Replace with a Globally unique name
+@description('Database auto pause in minutes.')
+param auto_pause_duration int = 60
 
-// @description('Flag to indicate whether auditing of data platform resources should be enabled')
-// param enable_audit bool = false
-
-// @description('Resource group where audit resources will be deployed if enabled. Resource group will be created if it doesnt exist')
-// param auditrg string= 'rg-audit'
+@description('Database SKU name, e.g P3. For valid values, run this CLI az sql db list-editions -l australiaeast -o table')
+param database_sku_name string = 'GP_S_Gen5_1'
 
 
 // Variables
-//var fabric_deployment_name = 'fabric_dataplatform_deployment_${deployment_suffix}'
-//var purview_deployment_name = 'purview_deployment_${deployment_suffix}'
-//var keyvault_deployment_name = 'keyvault_deployment_${deployment_suffix}'
-// var keyvault_deployment_name = 'fab-acc-kv'
-//var audit_deployment_name = 'audit_deployment_${deployment_suffix}'
 var controldb_deployment_name = 'controldb_deployment_${deployment_suffix}'
 
-// Create data platform resource group
-// resource fabric_rg  'Microsoft.Resources/resourceGroups@2024-03-01' = {
-//  name: dprg 
-//  location: rglocation
-//  tags: {
-//         CostCentre: cost_centre_tag
-//         Owner: owner_tag
-//         SME: sme_tag
-//   }
-// }
 
-resource fabric_rg 'Microsoft.Resources/resourceGroups@2021-04-01' existing = {
-  name: 'Fabric-Accelerator-Resource-Group'
+// ######################### NO CHANGES AFTER THIS POINT ##################################
+
+
+// Create data platform resource group
+resource fabric_rg  'Microsoft.Resources/resourceGroups@2024-03-01' = {
+ name: rg_name 
+ location: rglocation
 }
 
-// Create purview resource group
-// resource purview_rg  'Microsoft.Resources/resourceGroups@2024-03-01' = if (create_purview) {
-//   name: purviewrg 
-//   location: purview_location
-//   tags: {
-//          CostCentre: cost_centre_tag
-//          Owner: owner_tag
-//          SME: sme_tag
-//    }
-//  }
+// Get created resource group
+resource fabric_rg_ref 'Microsoft.Resources/resourceGroups@2021-04-01' existing = {
+  name: rg_name
+}
 
- // Create audit resource group
-// resource audit_rg  'Microsoft.Resources/resourceGroups@2024-03-01' = if(enable_audit) {
-//   name: auditrg 
-//   location: rglocation
-//   tags: {
-//          CostCentre: cost_centre_tag
-//          Owner: owner_tag
-//          SME: sme_tag
-//    }
-//  }
-
-// Deploy Purview using module
-// module purview './modules/purview.bicep' = if (create_purview || enable_purview) {
-//   name: purview_deployment_name
-//   scope: purview_rg
-//   params:{
-//     create_purview: create_purview
-//     enable_purview: enable_purview
-//     purviewrg: purviewrg
-//     purview_name: purview_name
-//     location: purview_location
-//     cost_centre_tag: cost_centre_tag
-//     owner_tag: owner_tag
-//     sme_tag: sme_tag
-//   }
-  
-// }
-
-// Deploy Key Vault with default access policies using module
-// module kv './modules/keyvault.bicep' = {
-//   name: keyvault_deployment_name
-//   scope: fabric_rg
-//   params:{
-//      location: fabric_rg.location
-//      keyvault_name: 'ba-kv01'
-//      cost_centre_tag: cost_centre_tag
-//      owner_tag: owner_tag
-//      sme_tag: sme_tag
-//      //purview_account_name: enable_purview ? purview.outputs.purview_account_name : ''
-//      //purviewrg: enable_purview ? purviewrg : ''
-//      //enable_purview: enable_purview
-//   }
-// }
-
-// resource kv_ref 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
-//   //name: kv.outputs.keyvault_name
-//   name: keyvault_deployment_name
-//   scope: fabric_rg
-// }
-
-//Enable auditing for data platform resources
-// module audit_integration './modules/audit.bicep' = if(enable_audit) {
-//   name: audit_deployment_name
-//   scope: audit_rg
-//   params:{
-//     location: audit_rg.location
-//     cost_centre_tag: cost_centre_tag
-//     owner_tag: owner_tag
-//     sme_tag: sme_tag
-//     audit_storage_name: 'baauditstorage01'
-//     audit_storage_sku: 'Standard_LRS'    
-//     audit_loganalytics_name: 'ba-loganalytics01'
-//   }
-// }
-
-//Deploy Microsoft Fabric Capacity
-// module fabric_capacity './modules/fabric-capacity.bicep' = {
-//   name: fabric_deployment_name
-//   scope: fabric_rg
-//   params:{
-//     fabric_name: 'bafabric01'
-//     location: fabric_rg.location
-//     cost_centre_tag: cost_centre_tag
-//     owner_tag: owner_tag
-//     sme_tag: sme_tag
-//     adminUsers: kv_ref.getSecret('fabric-capacity-admin-username')
-//     skuName: 'F4' // Default Fabric Capacity SKU F2
-//   }
-// }
+// Set unique name for Azure SQL Server
+var suffix = uniqueString(fabric_rg_ref.id)
+var sqlserver_unique_name = '${sqlserver_name}-${suffix}'
 
 //Deploy SQL control DB 
 module controldb './modules/sqldb.bicep' = {
   name: controldb_deployment_name
-  scope: fabric_rg
+  scope: fabric_rg_ref
   params:{
-     sqlserver_name: 'sql-server-db-fabric-accelerator'
-     database_name: 'controlDB_1' 
-     location: fabric_rg.location
-    //  cost_centre_tag: cost_centre_tag
-    //  owner_tag: owner_tag
-    //  sme_tag: sme_tag
-     //ad_admin_username:  kv_ref.getSecret('sqlserver-ad-admin-username')
-     ad_admin_username:  'clay@ezdata.co.nz'
-     ad_admin_sid:  'aebc135d-a0b7-4be4-9051-01b0ef24e4d0'  
-     auto_pause_duration: 60
-     database_sku_name: 'GP_S_Gen5_1' 
-     //enable_purview: enable_purview
-     //purview_resource: enable_purview ? purview.outputs.purview_resource : {}
-     //enable_audit: false
-     //audit_storage_name: enable_audit?audit_integration.outputs.audit_storage_uniquename:''
-     //auditrg: enable_audit?audit_rg.name:''
+     sqlserver_name: sqlserver_unique_name
+     database_name: database_name 
+     location: fabric_rg_ref.location
+     ad_admin_username:  entra_admin_username
+     ad_admin_sid:  entra_admin_object_id  
+     auto_pause_duration: auto_pause_duration
+     database_sku_name: database_sku_name
   }
 }
