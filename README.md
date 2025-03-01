@@ -1,6 +1,42 @@
-# Pre-Requisites
+# Microsoft Fabric Accelerator
 
-## 1. On GitHub/Settings/Secrets and variables, set the following secrets:
+## Disclamer
+This framework was based on **[Fabric Accelerator](https://bennyaustin.com/2024/11/17/fabric-accelerator/)** 
+
+## Content
+
+# ### iac-ASQL-Server-Database.yml
+GitHub Action to deploy Azure SQL Server and Azure SQL Server database (controlDB).
+The controlDB database is used to control ELT framework for metadata-driven orchestration.
+
+# ### iac-controlDB.yml
+GitHub Action to deploy controlDB database objects (tables and Stored Procedures).
+The controlDB database is used to control ELT framework for metadata-driven orchestration.
+
+## Setup
+
+### iac-ASQL-Server-Database Setup
+
+#### Pre-Requisites
+
+- Create a Service Principal with Contributor and User Access Administrator roles to the subscription. Check the code snippet below. [Need help](https://learn.microsoft.com/en-us/entra/identity-platform/howto-create-service-principal-portal).
+
+Azure Cloud Shell
+```bash
+az role assignment create --assignee <YOUR SERVICE PRINCIPAL CLIENT ID> --role Contributor --scope /subscriptions/<YOUR SUBSCRIPTION ID>
+```
+
+```bash
+az role assignment create --assignee <YOUR SERVICE PRINCIPAL CLIENT ID> --role "User Access Administrator" --scope /subscriptions/<YOUR SUBSCRIPTION ID>
+```
+
+#### Steps
+
+
+
+### Pre-Requisites
+
+#### 1. On GitHub/Settings/Secrets and variables, set the following secrets:
 
 * **TENANT_ID:** 
 * **SUBSCRIPTION_ID:** 
@@ -9,7 +45,7 @@
 * **CONTROLDB_CONNECTIONSTRING:** Server=**<YOUR SQL SERVER>**;Authentication=Active Directory Service Principal; Encrypt=True;Database=**<YOUR "controlDB" NAME>**;User Id=**<SERVICE_PRINCIPAL_CLIENT_ID>**
 ;Password=**<SERVICE_PRINCIPAL_CLIENT_SECRET>**
 
-## 2. Connect to controlDB using any SQL tool and execute the following command. This will grant db_owner role to the Service Principal:
+#### 2. Connect to controlDB using any SQL tool and execute the following command. This will grant db_owner role to the Service Principal:
 
 ```
 CREATE USER [<YOUR SERVICE PRINCIPAL NAME, NOT THE CLIENT ID>] FROM EXTERNAL PROVIDER
