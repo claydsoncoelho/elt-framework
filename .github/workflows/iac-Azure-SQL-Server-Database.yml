@@ -1,4 +1,4 @@
-name: Provision Azure SQL Server and Database
+name: Azure SQL Server and Database Provisioning
 on: workflow_dispatch 
 # on:
 #   push:

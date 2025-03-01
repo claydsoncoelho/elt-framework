@@ -1,4 +1,4 @@
-name: Provision controlDB database objects
+name: ControlDB Database Objects Provisioning
 on: workflow_dispatch 
 jobs:
     release:      
@@ -21,7 +21,7 @@ jobs:
           uses: Azure/sql-action@v2
           with:
             connection-string: ${{secrets.CONTROLDB_CONNECTIONSTRING}}
-            path: ${{github.workspace}}\iac\controlDB\Database.sqlproj
+            path: ${{github.workspace}}\iac\ControlDB\Database.sqlproj
             action: 'Publish'
             arguments: '/p:DropPermissionsNotInSource=false /p:BlockOnPossibleDataLoss=false /p:DropRoleMembersNotInSource=false /p:DropObjectsNotInSource=false /p:IgnoreColumnOrder=true /p:IgnorePermissions=true'
         - name: Azure Logout

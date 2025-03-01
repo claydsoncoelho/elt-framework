@@ -6,15 +6,15 @@ This framework is based on **[Fabric Accelerator](https://bennyaustin.com/2024/1
 ## Content
 
 - ### iac-Azure-SQL-Server-Database.yml
-GitHub Action to deploy **Azure SQL Server** and **Azure SQL Database (controlDB)**.
-The controlDB database is used to control ELT framework for metadata-driven orchestration. This step is optional if you already have a new Azure SQL Database provisioned and want to use it instead.
+GitHub Action to deploy **Azure SQL Server** and **Azure SQL Database (ControlDB)**.
+The ControlDB database is used to control ELT framework for metadata-driven orchestration. This step is optional if you already have a new Azure SQL Database provisioned and want to use it instead.
 
-- ### iac-controlDB.yml
-GitHub Action to deploy **controlDB database objects** (tables and Stored Procedures).
-The controlDB database is used to control ELT metadata-driven orchestration.
+- ### iac-ControlDB.yml
+GitHub Action to deploy **ControlDB database objects** (tables and Stored Procedures).
+The ControlDB database is used to control ELT metadata-driven orchestration.
 
 
-## iac-Azure-SQL-Server-Database Setup
+## Azure SQL Server and Database Provisioning Setup
 
 ### Pre-Requisites
 
@@ -43,19 +43,19 @@ az role assignment create --assignee <YOUR SERVICE PRINCIPAL CLIENT ID> --role C
 4. Go to GitHub Actions and execute the **Provision Azure SQL Server and Database** workflow. [Wiki](https://github.com/claydsoncoelho/elt-framework/wiki)
 
 
-## iac-controlDB Setup
+## ControlDB Database Objects Provisioning Setup
 
 ### Steps
 
 1. On GitHub -> Settings -> Secrets and variables, set the **CONTROLDB_CONNECTIONSTRING** secret with the following connection string:
 
 ```
-Server=<YOUR SQL SERVER NAME>;Authentication=Active Directory Service Principal; Encrypt=True;Database=<YOUR "controlDB" DATABASE NAME>;User Id=<SERVICE_PRINCIPAL_CLIENT_ID>;Password=<SERVICE_PRINCIPAL_CLIENT_SECRET>
+Server=<YOUR SQL SERVER NAME>;Authentication=Active Directory Service Principal; Encrypt=True;Database=<YOUR "ControlDB" DATABASE NAME>;User Id=<SERVICE_PRINCIPAL_CLIENT_ID>;Password=<SERVICE_PRINCIPAL_CLIENT_SECRET>
 ```
 
-2. Connect to controlDB using any SQL tool and execute the following command to grant db_owner role to your Service Principal:
+2. Connect to ControlDB using any SQL tool and execute the following command to grant db_owner role to your Service Principal:
 
-**Important!** If you are having problems to connect to controlDB, maybe you need to add your IP range to the Firewall in the Networking config of the Azure SQL Server.
+**Important!** If you are having problems to connect to ControlDB, maybe you need to add your IP range to the Firewall in the Networking config of the Azure SQL Server.
 
 ```sql
 CREATE USER [<YOUR SERVICE PRINCIPAL NAME, NOT THE CLIENT ID>] FROM EXTERNAL PROVIDER
@@ -64,4 +64,4 @@ EXEC sp_addrolemember 'db_owner', [<YOUR SERVICE PRINCIPAL NAME, NOT THE CLIENT 
 GO
 ```
 
-3. Go to GitHub Actions and execute the **Provision controlDB database objects** workflow. [Wiki](https://github.com/claydsoncoelho/elt-framework/wiki)
+3. Go to GitHub Actions and execute the **Provision ControlDB database objects** workflow. [Wiki](https://github.com/claydsoncoelho/elt-framework/wiki)
