@@ -1,4 +1,4 @@
-name: ControlDB Deployment
+name: Provision controlDB database objects
 on: workflow_dispatch 
 jobs:
     release:      

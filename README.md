@@ -21,7 +21,7 @@ The controlDB database is used to control ELT metadata-driven orchestration.
 
 - Create a Service Principal (Single tenant is enogh).
 
-Give the Service Principal **Contributor** and **User Access Administrator** roles to the subscription. Check the code snippet below. [Need help](https://learn.microsoft.com/en-us/entra/identity-platform/howto-create-service-principal-portal).
+Give the Service Principal **Contributor** and **User Access Administrator** roles to the subscription. Check the code snippet below. [Need help?](https://learn.microsoft.com/en-us/entra/identity-platform/howto-create-service-principal-portal)
 
 Azure Cloud Shell
 ```bash

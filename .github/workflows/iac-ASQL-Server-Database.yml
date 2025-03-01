@@ -1,4 +1,4 @@
-name: Provision Fabric Data Platform
+name: Provision Azure SQL Server and Database
 on: workflow_dispatch 
 # on:
 #   push:
