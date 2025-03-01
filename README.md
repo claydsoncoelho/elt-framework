@@ -1,3 +1,23 @@
+# Pre-Requisits
+
+1. On GitHub/Settings/Secrets and variables, set the following secrets:
+
+* **TENANT_ID:** 
+* **SUBSCRIPTION_ID:** 
+* **SERVICE_PRINCIPAL_CLIENT_ID:** 
+* **SERVICE_PRINCIPAL_CLIENT_SECRET:** 
+* **CONTROLDB_CONNECTIONSTRING:** Server=**<YOUR SQL SERVER>**;Authentication=Active Directory Service Principal; Encrypt=True;Database=**<YOUR "controlDB" NAME>**;User Id=**<SERVICE_PRINCIPAL_CLIENT_ID>**
+;Password=**<SERVICE_PRINCIPAL_CLIENT_SECRET>**
+
+2. Connect to controlDB and execute the following command:
+
+```
+CREATE USER [<YOUR SERVICE PRINCIPAL NAME, NOT THE CLIENT ID>] FROM EXTERNAL PROVIDER
+GO
+EXEC sp_addrolemember 'db_owner', [<YOUR SERVICE PRINCIPAL NAME, NOT THE CLIENT ID>]
+GO
+```
+
 # elt-framework
 The Extract Load Transform (ELT) framework is a metadata-driven orchestration framework designed for modern cloud data platforms. It simplifies ingestion and transformation pipelines, ensuring a consistent development experience and ease of maintenance. The framework supports batch ingestion and has been extensively tested with **[Microsoft Fabric](https://github.com/bennyaustin/fabric-dataplatform)** and Azure managed services like **[Azure Databricks](https://github.com/rorymcmanus87/databricks-dataplatform)** and **[Azure Synapse](https://github.com/bennyaustin/synapse-dataplatform)**. It utilizes an ANSI-compatible control database as the metadata repository.
 
