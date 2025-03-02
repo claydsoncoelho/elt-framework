@@ -5,16 +5,22 @@ This framework is based on **[Fabric Accelerator](https://bennyaustin.com/2024/1
 
 ## Content
 
-- ### iac-Azure-SQL-Server-Database.yml
+- ### Azure SQL Server and Database Provisioning
 GitHub Action to deploy **Azure SQL Server** and **Azure SQL Database (ControlDB)**.
 The ControlDB database is used to control ELT framework for metadata-driven orchestration. This step is optional if you already have a new Azure SQL Database provisioned and want to use it instead.
 
-- ### iac-ControlDB.yml
+**Location:** .github/workflows/iac-Azure-SQL-Server-Database.yml
+
+- ### ControlDB Database Objects Provisioning
 GitHub Action to deploy **ControlDB database objects** (tables and Stored Procedures).
 The ControlDB database is used to control ELT metadata-driven orchestration.
 
+**Location:** .github/workflows/iac-ControlDB.yml
+
 - ### Microsoft Fabric Accelerator
 A Fabric Workspace with a metadata-driven orchestration framework designed for modern cloud data platforms. It simplifies ingestion and transformation pipelines, ensuring a consistent development experience and ease of maintenance.
+
+**Location:** Fabric_Worspace
 
 
 ## Azure SQL Server and Database Provisioning Setup
