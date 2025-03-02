@@ -13,6 +13,9 @@ The ControlDB database is used to control ELT framework for metadata-driven orch
 GitHub Action to deploy **ControlDB database objects** (tables and Stored Procedures).
 The ControlDB database is used to control ELT metadata-driven orchestration.
 
+- ### Microsoft Fabric Accelerator
+A Fabric Workspace with a metadata-driven orchestration framework designed for modern cloud data platforms. It simplifies ingestion and transformation pipelines, ensuring a consistent development experience and ease of maintenance.
+
 
 ## Azure SQL Server and Database Provisioning Setup
 
@@ -65,3 +68,22 @@ GO
 ```
 
 3. Go to GitHub Actions and execute the **ControlDB Database Objects Provisioning** workflow. [Wiki](https://github.com/claydsoncoelho/elt-framework/wiki)
+
+
+## Fabric Worspace Setup
+
+### Steps
+
+1. On Fabric create a **Workspace**. Take note of the Worspace ID, you will need this later.
+
+2. On Setting -> Connections and Getways, **create ControlDB connection**. Take note of the Connection ID, you will need this later.
+
+3. **Refactor Connection IDs**: Open the repo folder in VS Code. Create a branch from main. Search and replace all these GUIDs with the values you took note earlier.
+
+| Description | Find | Replace All |
+| ----------- | ---- | ----------- |
+| Fabric Capacity ID | e4eb626a-4082-4143-983d-6fc9284b74cd | your Capacity ID |
+| Fabric Workspace ID | 00000000-0000-0000-0000-000000000000 | your Workspace ID |
+| Fabric Workspace ID | 8d8d00a7-0e8a-4e3b-8c0e-8dcafac7adec | your Workspace ID|
+| ControlDB Connection ID | 91ecdff4-3ab7-4bbb-b6e0-682881c0540d | your Control DB Connection ID |
+| Wide World Importers Connection ID | a0a57e51-5032-4e46-b0f0-493c9d2f51c9 | your WWI Connection ID from step 6 |
