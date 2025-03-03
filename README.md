@@ -93,3 +93,27 @@ GO
 | Fabric Workspace ID | 8d8d00a7-0e8a-4e3b-8c0e-8dcafac7adec | your Workspace ID|
 | ControlDB Connection ID | 91ecdff4-3ab7-4bbb-b6e0-682881c0540d | your Control DB Connection ID |
 | Wide World Importers Connection ID | a0a57e51-5032-4e46-b0f0-493c9d2f51c9 | your WWI Connection ID from step 6 |
+
+3. **Create Azure DevOps repo:** Create a fabric-workspace-management repository on Azure DevOps and upload the content of fabric-workspace-management folder to it.
+
+4. Connect your Fabric Workspace to your Azure DevOps fabric-workspace-management repository.
+
+5. **Sync Update**s: From your Fabric workspace, sync updates to get the latest version from Azure DevOps.
+
+6. **Update Lakehouse References:** Once sync is successful, update the missing Lakehouse references in these notebooks to lh_silver as default.
+
+    - L1Transform-Generic-Fabric
+
+7. **Update EnvSettings Notebook:** From your workspace, navigate to EnvSettings notebook and update these variables:
+
+| Variable | Description | Default Value |
+| -------- | ----------- | ------------- |
+| bronzeWorkspaceId | Fabric Workspace ID for the Bronze medallion layer. | your Workspace ID |
+| bronzeLakehouseName | Bronze Lakehouse name. Set to None if not applicable. | lh_bronze |
+| bronzeDatawarehouseName | Bronze data warehouse name. Set to None if not applicable. | None |
+| silverWorkspaceId | Fabric Workspace ID for the Silver medallion layer. Use the same ID if all medallion layers are in the same workspace. | your Workspace ID |
+| silverLakehouseName | Silver Lakehouse name. Set to None if not applicable. | lh_silver |
+| silverDatawarehouseName | Silver | data warehouse | name. Set to None if not applicable. | None |
+| goldWorkspaceId | Fabric Workspace ID for the Gold medallion layer. Use the same ID if all medallion layers are in the same workspace. | your Workspace ID |
+| goldLakehouseName | Gold Lakehouse name. Set to None if not applicable. | None |
+| goldDatawarehouseName | Gold data warehouse name. Set to None if not applicable. | dw_gold |
