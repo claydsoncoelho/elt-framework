@@ -3,11 +3,11 @@
 SELECT *
 INTO ELT.Z_Source_Metadata
 FROM (
-    SELECT 'dbo' AS Schema_Name, 'Customers' AS Table_Name, 'CustomerID' as primary_key, '252a2b74-0b66-4bb9-ba94-9d88bd82d197' as L1NotebookID
+    SELECT 'dbo' AS Schema_Name, 'Customers' AS Table_Name, 'CustomerID' as primary_key
     UNION
-    SELECT 'dbo' AS Schema_Name, 'Orders' AS Table_Name, 'OrderID' as primary_key, '252a2b74-0b66-4bb9-ba94-9d88bd82d197' as L1NotebookID
+    SELECT 'dbo' AS Schema_Name, 'Orders' AS Table_Name, 'OrderID' as primary_key
     UNION
-    SELECT 'dbo' AS Schema_Name, 'OrderLines' AS Table_Name, 'OrderLineID' as primary_key, '252a2b74-0b66-4bb9-ba94-9d88bd82d197' as L1NotebookID
+    SELECT 'dbo' AS Schema_Name, 'OrderLines' AS Table_Name, 'OrderLineID' as primary_key
 ) A;
 
 SELECT *
@@ -143,7 +143,7 @@ NULL AS [OutputL1CuratedFileFormat],
 NULL AS [OutputL1CuratedFileWriteMode],
 NULL AS [OutputDWStagingTable],
 NULL AS [LookupColumns],
-'silver.dbo_' + StreamName AS [OutputDWTable],
+StreamName AS [OutputDWTable],
 'append' AS [OutputDWTableWriteMode],
 3 AS [MaxRetries],
 NULL AS [WatermarkColName],
